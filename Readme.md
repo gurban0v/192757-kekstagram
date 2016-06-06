@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
 * Студент: [Гурбанов Султан](https://up.htmlacademy.ru/javascript/5/user/192757).
-* Наставник: `Неизвестно`.
+* Наставник: `Татьяна Коростелева`.
 
 ---
 

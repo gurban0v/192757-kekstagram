@@ -1,35 +1,36 @@
-function getMessage(a,b) {
-	if(typeof a === 'boolean') {
+function getMessage (a, b){
+	if (typeof a === 'boolean'){
 		if(a){
-			return 'Переданное GIF-изображение анимировано и содержит' + b + 'кадров'; 
-		}else{
-		return 'Переданное GIF-изображение не анимировано';
+			return '"Переданное GIF-изображение анимировано и содержит ' + b + ' кадров';
+		} else {
+			return 'Переданное GIF-изображение не анимировано';
 		}
-	if(typeof a === 'number') {
-		return 'Переданное SVG-изображение содержит' + a + 'объектов и ' + b * 4 + 'атрибутов';
-	}
-  }
+	} else if (typeof a === 'number') {
+		return 'Переданное SVG-изображение содержит ' + a + ' объектов и ' + b * 4 + ' атрибутов';
+	} else if (Array.isArray(a)) {
+        if (Array.isArray(b)) {
+            return 'Общая площадь артефактов сжатия: ' + getArrayMultiplying(a, b) + ' пикселей';
+        } else {
+            return 'Количество красных точек во всех строчках изображения: ' + getArraySum(a);
+        }
+    }
 }
 
-var getArraySum = function (a,b){
-	if(a instanceof Array && !(b instanceof Array)) {
-		var sum = 0;
-		aLength = a.length;
-		for (var i = 0; i < aLength; i++) {
-			sum += a[i];
-		}
-		return 'Количество красных точек во всех строчках изображения: ' + sum;
-	}
+function getArraySum (a){
+	//сумма значений переданного массива
+	var sum = null;
+    for (var i = 0; i < a.length; i++){
+    	sum += a[i];
+    }
+    return sum;
 }
 
-var getArrayMultiplying = function (a,b){
-	if(a instanceof Array && b instanceof Array){
-		var square = 0;
-		for(var i = 0; i < a.length; i++){
-			square += (a[i]*b[i]);
-		}
-		return 'Общая площадь артефактов сжатия: ' + square + 'пикселей';
-	}
+function getArrayMultiplying (a, b){
+	//это сумма произведений соответствующих элементов массивов a и b,
+    //cумма произведения первого элемента a с первым элементом b, второго со вторым и так далее
+    var square = null;
+    for (var i = 0; i < a.length; i++){
+    	square += a[i] * b[i];
+    }
+    return square;
 }
-
-getMessage(a,b);

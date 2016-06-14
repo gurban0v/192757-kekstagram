@@ -1,4 +1,4 @@
-'use strict';
+'use strict';// jshint ignore:line
 
 (function() {
   /**
@@ -7,7 +7,7 @@
    */
   var Resizer = function(image) {
     // Изображение, с которым будет вестись работа.
-    this._image = new Image();
+    this._image = new Image();/*global Image*/
     this._image.src = image;
 
     // Холст.
@@ -112,6 +112,19 @@
       // Координаты задаются от центра холста.
       this._ctx.drawImage(this._image, displX, displY);
 
+      // ЧЕРНЫЙ СЛОЙ ВОКРУГ РАМКИ. 80% ПРОЗРАЧНОСТЬ.
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      this._ctx.rect((-this._container.width / 2), (-this._container.height / 2), this._container.width, this._container.height);
+      this._ctx.rect(((-this._resizeConstraint.side / 2) - this._ctx.lineWidth), ((-this._resizeConstraint.side / 2) - this._ctx.lineWidth), (this._resizeConstraint.side + this._ctx.lineWidth), (this._resizeConstraint.side + this._ctx.lineWidth));
+      this._ctx.fill('evenodd');
+
+      // РАЗМЕР КАДРИРУЕМОГО ИЗОБРАЖЕНИЯ. ВИД:100х100
+      this._ctx.fillStyle = '#fff';
+      this._ctx.font = 'normal 14pt Arial';
+      this._ctx.textAlign = 'center';
+      this._ctx.textBaseline = 'bottom';
+      this._ctx.fillText(this._image.naturalWidth + ' x ' + this._image.naturalHeight, 0, -this._resizeConstraint.side / 2 - this._ctx.lineWidth);
+
       // Отрисовка прямоугольника, обозначающего область изображения после
       // кадрирования. Координаты задаются от центра.
       this._ctx.strokeRect(
@@ -139,7 +152,7 @@
      */
     _enterDragMode: function(x, y) {
       this._cursorPosition = new Coordinate(x, y);
-      document.body.addEventListener('mousemove', this._onDrag);
+      document.body.addEventListener('mousemove', this._onDrag); /*global document*/
       document.body.addEventListener('mouseup', this._onDragEnd);
     },
 
@@ -245,9 +258,9 @@
         this._resizeConstraint.side = side;
       }
 
-      requestAnimationFrame(function() {
+      requestAnimationFrame(function() { /*global requestAnimationFrame*/
         this.redraw();
-        window.dispatchEvent(new CustomEvent('resizerchange'));
+        window.dispatchEvent(new CustomEvent('resizerchange')); /*global window*/ /*global CustomEvent*/
       }.bind(this));
     },
 

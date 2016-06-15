@@ -99,7 +99,6 @@
       this._ctx.lineDashOffset = 7;
 
       // Сохранение состояния канваса.
-      // Подробней см. строку 132.
       this._ctx.save();
 
       // Установка начальной точки системы координат в центр холста.
@@ -107,18 +106,34 @@
 
       var displX = -(this._resizeConstraint.x + this._resizeConstraint.side / 2);
       var displY = -(this._resizeConstraint.y + this._resizeConstraint.side / 2);
+      var resizeConstraint = this._resizeConstraint.side / 2;
+      var lineWidth = this._ctx.lineWidth / 2;
+
       // Отрисовка изображения на холсте. Параметры задают изображение, которое
       // нужно отрисовать и координаты его верхнего левого угла.
       // Координаты задаются от центра холста.
       this._ctx.drawImage(this._image, displX, displY);
 
+      // ЧЕРНЫЙ СЛОЙ ВОКРУГ РАМКИ. 80% ПРОЗРАЧНОСТЬ.
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      this._ctx.rect((-this._container.width / 2), (-this._container.height / 2), this._container.width, this._container.height);
+      this._ctx.rect((-resizeConstraint - this._ctx.lineWidth), (-resizeConstraint - this._ctx.lineWidth), (this._resizeConstraint.side + this._ctx.lineWidth), (this._resizeConstraint.side + this._ctx.lineWidth));
+      this._ctx.fill('evenodd');
+
+      // РАЗМЕР КАДРИРУЕМОГО ИЗОБРАЖЕНИЯ. ВИД:100х100
+      this._ctx.fillStyle = '#fff';
+      this._ctx.font = 'normal 14pt Arial';
+      this._ctx.textAlign = 'center';
+      this._ctx.textBaseline = 'bottom';
+      this._ctx.fillText(this._image.naturalWidth + ' x ' + this._image.naturalHeight, 0, -resizeConstraint - this._ctx.lineWidth);
+
       // Отрисовка прямоугольника, обозначающего область изображения после
       // кадрирования. Координаты задаются от центра.
       this._ctx.strokeRect(
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
-          this._resizeConstraint.side - this._ctx.lineWidth / 2,
-          this._resizeConstraint.side - this._ctx.lineWidth / 2);
+          -resizeConstraint - lineWidth,
+          -resizeConstraint - lineWidth,
+          this._resizeConstraint.side - lineWidth,
+          this._resizeConstraint.side - lineWidth);
 
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы

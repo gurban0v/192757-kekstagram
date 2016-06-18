@@ -1,3 +1,5 @@
 'use strict';
 
-require('./main');
+require('./resizer');
+require('./upload');
+require('./pictures');
